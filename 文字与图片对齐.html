@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+      div{
+        width: 700px;
+        height: 300px;
+        line-height: 300px;
+        /*vertical-align: middle;*/
+      }
+      img{
+        width: 15px;
+        height: 15px;
+        /*vertical-align:bottom;*/
+        vertical-align: middle;
+      }
+      span{
+        font-size: 16px;
+      }
+  </style>
+</head>
+<body>
+  <!--DIV+CSS 让同一行的图片和文字对齐
+
+在div+css布局中，如果一行(或一个DIV)内容中有图片和文字的话，图片和文字往往会一个在上一个在下，这是一个新手都会遇到问题，我的解决方法有三： 
+
+1.添加CSS属性：vertical-align:middle;
+
+代码： <style> a img{border:none} .testdiv *{ vertical-align:middle; } </style>
+
+<div class="testdiv">  <a href="http://www.zc144.com/"><img src="http://www.zc144.com/download/Template.jpg" alt="这里是图片" /></a>  <span>这里是文字,看看文字对齐了没</span> </div>
+
+2.div嵌套：将图片和文字分别套上一个div，就可以利用 margin 熟悉任意定位了
+
+代码： <style> a img{border:none} .testIMG{ float:left; display:inline; margin-top:0; margin-left:5px; } .testTXT{ float:left; display:inline; margin-top:20; margin-left:5px; } </style>
+
+<div class="testdiv">  <div class="testIMG"><a href="http://www.zc144.com/"><img src="http://www.zc144.com/download/Template.jpg" alt="这里是图片" /></a></div>  <div class="testTXT"><span>这里是文字,看看文字对齐了没</span></div> </div>
+
+3.把图片作为背景：如果你的图片只是用来作为小图标放在文字的左侧，那就推荐用这个方法，图片设置成文字的背景，不循环，定位在左侧上下居中，文字向左padding图片的宽度加几个像素。
+
+代码： <style> a img{border:none} .testTXT{ height:60px; line-height:60px; padding-left:65px; background:url(http://www.zc144.com/download/Template.jpg) no-repeat left center } </style>
+
+<div class="testdiv">  <div class="testTXT"><span>这里是文字,看看文字对齐了没</span></div> </div>-->
+  <div>
+    <img src="./1.jpg" alt=""><span>哈琳哈琳哈琳哈琳哈琳哈琳哈琳哈琳哈琳</span>
+  </div>
+</body>
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>班级群聊</title>
+    <link rel="stylesheet" type="text/css" href="./base.css">
+    <link rel="stylesheet" type="text/css" href="./fonts/iconfont.css">
+    <link rel="stylesheet" type="text/css" href="./common2.css">
+    <link rel="stylesheet" type="text/css" href="./images.css">
+    <link rel="stylesheet" type="text/css" href="./communicate-chat.css">
+    <script src="./vue.js"></script>
+</head>
+<style lang="css">
+    body{
+        overflow: hidden
+    }
+    
+</style>
+<body>
+    <div class="client-box chatting" id="content_box">
+        <!-- 聊天界面头部 -->
+        <div class="chatting-header">
+            <div class="chatting-back" @click="toBack">
+                <i class="iconfont icon-fanhui"></i>
+            </div>
+            <div class="chatting-title">
+                <div class="chatting-title-inner"><i class="icon-group"></i>班级群聊<span>(120)</span></div>
+            </div>
+            <div class="chatting-menu" @click="toGroupMassage">
+                <i class="iconfont icon-wodebanji"></i>
+            </div>
+        </div>
+        <!-- 聊天内容区域 -->
+        <div ref="chattingContent" class="chatting-content" id="chatinga" @click="bottomHide">
+            <div v-for="item of msgs">
+                <!-- slef -->
+                <div v-if="item.self" class="chatting-item self clearfix">
+                    <div class="msg-date">上午 17:12</div>
+                    <div class="message-list">
+                        <img src="../../images/growpic.png" height="140" width="140" alt="" @click="toDetail">
+                        <div class="message-list-r">
+                            <div class="msg-author">{{ item.author}}</div>
+                            <div class="msg-content">{{ item.content }}</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- oter -->
+                <div v-else class="chatting-item other clearfix">
+                    <div class="msg-date">上午 17:12</div>
+                    <div class="message-list">
+                        <img src="../../images/growpic.png" height="140" width="140" alt="">
+                        <div class="message-list-r">
+                            <div class="msg-author">{{ item.author}}</div>
+                            <div class="msg-content">{{ item.content }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 输入区域 -->
+        <footer>
+            <div class="chatting-input">
+                <textarea type="text" ref="textarea" v-model.trim="inputMessage" @input="whatInput" @keyup.enter="clickSend" @click="bottomHide" placeholder="左上角"></textarea>
+                <div class="face-icon" @click="emojiBottomShow">
+                    <i class="iconfont icon-xiaolian"></i>
+                </div>
+                <div class="add-pic">
+                    <button class="send" v-if="light" @click="clickSend">
+                        <span>发送</span>
+                    </button>
+                    <div class="add" v-else @click="photoBottomShow">
+                        <i class="iconfont icon-jiahao1"></i>
+                    </div>
+                </div>
+            </div>
+            <section class="foot_img" :class=" {footshow : photoClickMore}">
+                <div class="photo">
+                    <i class="iconfont icon-xiaolian"></i>
+                    <span>照片</span>
+                </div>
+            </section>
+            <section class="foot_emoji" :class=" {footshow:emojiClickMore}">
+                <!-- <transition name="slide-bottom"> -->
+                <div v-show="isShowEmoji" class="emoji-display">
+                    <ul>
+                        <li v-for="item in emojis" @click="insertText(item)">{{item}}</li>
+                        <!--   <li v-for="item in 72" @click="insertText(item)">
+                            <img :src="'http://www.jq22.com/demo/qqFace/arclist/'+item+'.gif'" alt="">
+                        </li> -->
+                    </ul>
+                </div>
+                <!-- </transition> -->
+            </section>
+        </footer>
+    </div>
+    <script type="text/javascript">
+    var app = new Vue({
+        el: '#content_box',
+        data: {
+            inputMessage: '', //输入的文本内容
+            light: false, //输入框不为空时，input下边框变色
+            photoClickMore: true, //点击加号底部,默认隐藏
+            emojiClickMore: true, //点击表情，默认隐藏
+            isShowEmoji: true,
+            emojis: ['😂', '🙏', '😄', '😏', '😇', '😅', '😌', '😘', '😍', '🤓', '😜', '😎', '😊', '😳', '🙄', '😱', '😒', '😔', '😷', '👿', '🤗', '😩', '😤', '😣', '😰', '😴', '😬', '😭', '👻', '👍', '✌️', '👉', '👀', '🐶', '🐷', '😹', '⚡️', '🔥', '🌈', '🍏', '⚽️', '❤️', '🇨🇳'],
+            // emojisData: ["http://www.jq22.com/demo/qqFace/arclist/52.gif", "http://www.jq22.com/demo/qqFace/arclist/52.gif"],
+            msgs: [{
+                "self": "ok",
+                "touxiang": "../../images/jiaweihui.png",
+                "author": "jiuchun",
+                "content": "可以的"
+            }, {
+                // "self":"",
+                "touxiang": "../../images/jiaweihui.png",
+                "author": "jiuchun",
+                "content": "可以的"
+            }]
+
+        },
+        created: function() {},
+        mounted: function() {
+            this.chattingContent = this.$refs.chattingContent;
+        },
+        computed: {},
+        watch: {},
+        methods: {
+            toBack:function(){
+                // console.log(11)
+                window.history.back();
+            },
+            toGroupMassage: function() {
+                location.href = "./communicate-group-massage.html";
+            },
+            toDetail: function() {
+                location.href = "./detail.html";
+            },
+            insertText(str) {
+                str = str + ``;
+                const oTextarea = this.$refs.textarea;
+                oTextarea.value += str;
+                this.inputMessage = oTextarea.value;
+                this.whatInput();
+                this.newLine();
+            },
+            newLine: function() {
+                return this.chattingContent.scrollTop = this.chattingContent.scrollHeight - this.chattingContent.offsetHeight;
+            },
+            bottomHide: function() {
+                this.photoClickMore = true;
+                this.emojiClickMore = true;
+            },
+            photoBottomShow: function() {
+                this.emojiClickMore = true;
+                this.photoClickMore = false;
+            },
+            emojiBottomShow: function() {
+                this.photoClickMore = true;
+                this.emojiClickMore = false;
+            },
+            whatInput: function() {
+                if (this.inputMessage.replace(/\s+/g, "") == '') {
+                    this.light = false;
+                } else {
+                    this.light = true;
+                }
+            },
+            clickSend: function() {
+                if (this.inputContent === '') {
+                    return;
+                };
+                this.msgs.push({
+                    // date: this.moment().format('YYYY-MM-DD HH:mm:ss'),
+                    // "self":"ok",
+                    "touxiang": "../../images/jiaweihui.png",
+                    "author": "jiuchun", //`${localStorage.name}`
+                    "content": this.inputMessage
+                });
+                this.inputMessage = '';
+                this.light = false;
+                this.$nextTick(function() {
+                    this.newLine();
+                })
+            }
+        }
+    })
+    </script>
+</body>
+
+</html>

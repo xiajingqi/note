@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <script src="./js/vue.js"></script>
+    <style>
+    .star{
+        font-size: 0;
+    }
+    .star-item{
+        display: inline-block;
+        background-repeat: no-repeat;
+        width: 20px;
+        height: 20px;
+        margin-right: 22px;
+        background-size: 100%;
+    }
+    .star-item.on{
+        background-image: url(./image/on.png);
+    }
+    .star-item.half{
+        background-image: url(./image/half.png);
+    }
+    .star-item.off{
+        background-image: url(./image/off.png);
+    }
+</style>
+</head>
+<body>
+    <div id="app">
+        <ul class="star">
+            <span v-for="(itemClass,index) in itemClasses" :class="itemClass" class="star-item" :key="index"></span><!--性能优化 track-by 数据不改变时不会重新渲染-->
+        </ul>
+    </div>
+</body>
+
+    <script>
+    new Vue({
+     el: '#app',
+   　data:{
+        score: 3.5
+    },
+     computed:{ //计算属性
+        itemClasses(){
+            let result = [];
+            let score = Math.floor(this.score * 2 ) / 2;
+            let hasDecimal = score % 1 !== 0;
+            let integer = Math.floor(score);
+            for(let i=0;i<integer;i++){
+                result.push("on");
+            }
+            if(hasDecimal){
+                result.push("half");
+            }
+            while(result.length < 5){
+               result.push("off");
+            }
+           return result;
+        }
+    }
+})
+</script>
+</html>
